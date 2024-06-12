@@ -1,13 +1,81 @@
 
+import { useState } from 'react'
 import './App.css'
 import Button from './assets/Button'
 
+const operators = ["%","/","*","-","+"]
 function App() {
+  const [strToDisplay, setStrToDisplay] = useState('')
+  const [lastOperator, setLastOperator] = useState('')
+  const buttonAction = (value) => {
+    if (value === 'AC') {
+      setStrToDisplay('')
+      return
+    }
+    if (value === 'C') {
+      setStrToDisplay(strToDisplay.slice(0, -1))
+      return
+    }
+    if (value === '=' || value === 'Enter') {
+      setLastOperator('')
+      const lastChar = strToDisplay[strToDisplay.length - 1]
+      if (operators.includes(lastChar)) {
+        setStrToDisplay(strToDisplay.slice(0,-1) )
+        return
+      }
+      return displayTotal()
+    }
+
+    if (operators.includes(value)) {
+      setLastOperator(value)
+      const lastChar = strToDisplay[strToDisplay.length - 1]
+      if (operators.includes(lastChar)) {
+        setStrToDisplay(strToDisplay.slice(0, -1)+value)
+        return
+      }
+    }
+
+    // handle the dot click 19:44
+    if (value == '.') {
+      const lastOperatorIndex = strToDisplay.lastIndexOf(lastOperator)
+      const lastNumberSet = strToDisplay.slice(lastOperatorIndex)
+      if (lastNumberSet.includes('.')) {
+        return
+      }
+      if (!lastOperator && strToDisplay.includes('.')) {
+        return
+      }
+    }
+
+    setStrToDisplay(strToDisplay + value)
+  }
+
+  // random function
+  const randomValue = () => {
+    const num = Math.round(Math.random() * 10)
+    return num < 4 ? num : 0
+  }
+
+  const displayTotal = () => {
+    const extraValue = randomValue();
+    if(extraValue){
+
+    }
+      const total = eval(strToDisplay)+extraValue
+      setStrToDisplay(total.toString())
+     
+    
+  }
+
+  const handleClick = (value) => {
+    buttonAction(value)
+  }
   const btns = [
     {
       cls: 'btn-ac',
       label: 'AC',
-    }, {
+    },
+    {
       cls: 'btn-c',
       label: 'C',
     },
@@ -78,17 +146,16 @@ function App() {
     {
       cls: 'btn-equal',
       label: '=',
-    }
+    },
   ]
-
 
   return (
     <div>
       <div className="container flex-center">
         <div className="calculator">
-          <div className="display">0.0</div>
-          {btns.map((btn, index)=>{
-            return <Button key={index} cls={btn.cls} label={btn.label}/>
+          <div className="display">{strToDisplay || '0.00'}</div>
+          {btns.map((btn, index) => {
+            return <Button key={index} {...btn} handleClick={handleClick} />
           })}
         </div>
       </div>
