@@ -123,3 +123,6 @@ wrapper{
 .btn-equal{
     grid-area: equal;
 } 
+.add{
+  transform: scale(0.9);
+}

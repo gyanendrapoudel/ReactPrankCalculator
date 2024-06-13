@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import './App.css'
 import Button from './assets/Button'
+import music from  './assets/error.mp3'
 
 const operators = ["%","/","*","-","+"]
 function App() {
@@ -52,7 +53,12 @@ function App() {
 
   // random function
   const randomValue = () => {
+    
     const num = Math.round(Math.random() * 10)
+    if(num<4) {
+      const sound = new Audio(music)
+      sound.play()
+    }
     return num < 4 ? num : 0
   }
 
