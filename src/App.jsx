@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import Button from './assets/Button'
 import music from  './assets/error.mp3'
@@ -10,7 +10,20 @@ function App() {
   const [lastOperator, setLastOperator] = useState('')
   const [isMousedown, setIsMousedown] = useState()
   const [isPrank, setIsPrank] = useState(false)
-  
+  const isEventAttached = useRef(false)
+  useEffect(()=>{
+    !isEventAttached.current&&window.addEventListener("keypress",(e)=>{
+      const value = e.key
+      if(e.code.includes("Key")){
+        return;
+      }
+     
+      buttonAction(value)
+     
+    })
+    console.log('attached')
+    isEventAttached.current = true
+  },[])
   const buttonAction = (value) => {
     if (value === 'AC') {
       setStrToDisplay('')
@@ -74,6 +87,7 @@ function App() {
      
     
   }
+  // handling key events
   
   const handleClick = (value) => {
     setIsMousedown()
@@ -81,8 +95,6 @@ function App() {
   }
   const handleMousedown = (value)=>{
    setIsMousedown(value)
-
-   console.log(isMousedown)
 
   }
   const btns = [
