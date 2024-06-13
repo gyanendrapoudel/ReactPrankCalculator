@@ -7,7 +7,7 @@ body{
     justify-content: center;
     align-items: center;
 }
-wrapper{
+.wrapper{
     background: linear-gradient(lightgreen , green);
     height: 100vh;
 }
@@ -123,6 +123,7 @@ wrapper{
 .btn-equal{
     grid-area: equal;
 } 
-.add{
-  transform: scale(0.9);
+.prank{
+  background-color: red;
+  color: white
 }

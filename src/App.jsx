@@ -8,6 +8,9 @@ const operators = ["%","/","*","-","+"]
 function App() {
   const [strToDisplay, setStrToDisplay] = useState('')
   const [lastOperator, setLastOperator] = useState('')
+  const [isMousedown, setIsMousedown] = useState()
+  const [isPrank, setIsPrank] = useState(false)
+  
   const buttonAction = (value) => {
     if (value === 'AC') {
       setStrToDisplay('')
@@ -55,26 +58,32 @@ function App() {
   const randomValue = () => {
     
     const num = Math.round(Math.random() * 10)
-    if(num<4) {
-      const sound = new Audio(music)
-      sound.play()
-    }
     return num < 4 ? num : 0
   }
 
   const displayTotal = () => {
     const extraValue = randomValue();
+    setIsPrank(false)
     if(extraValue){
-
+       const sound = new Audio(music)
+       sound.play()
+       setIsPrank(true)
     }
       const total = eval(strToDisplay)+extraValue
       setStrToDisplay(total.toString())
      
     
   }
-
+  
   const handleClick = (value) => {
+    setIsMousedown()
     buttonAction(value)
+  }
+  const handleMousedown = (value)=>{
+   setIsMousedown(value)
+
+   console.log(isMousedown)
+
   }
   const btns = [
     {
@@ -159,9 +168,9 @@ function App() {
     <div>
       <div className="container flex-center">
         <div className="calculator">
-          <div className="display">{strToDisplay || '0.00'}</div>
+          <div className={isPrank?"display prank":"display"}>{strToDisplay || '0.00'}</div>
           {btns.map((btn, index) => {
-            return <Button key={index} {...btn} handleClick={handleClick} />
+            return <Button key={index} {...btn} handleClick={handleClick} handleMousedown={handleMousedown} isMousedown={isMousedown} />
           })}
         </div>
       </div>
