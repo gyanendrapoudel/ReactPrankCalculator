@@ -21,7 +21,6 @@ function App() {
       buttonAction(value)
      
     })
-    console.log('attached')
     isEventAttached.current = true
   },[])
   const buttonAction = (value) => {
